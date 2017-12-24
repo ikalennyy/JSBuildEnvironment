@@ -1,27 +1,26 @@
-//TO SERVER THE SRC FOLDER
+//TO SERVER THE DIST FOLDER
+// NO WEBPACK HERE, we serve static files only
+
+// this file exists so we can serve our production LOCALLY in case we have to debug and check our configuration
 
 import express from 'express';
 import path from 'path';
 //var open = require('open');
 //ES 6 Syntax, Babel will transpire
 import open from 'open';
-
-//for bundling
-import webpack, { Compiler } from 'webpack';
-import config from '../webpack.config.dev';
+import compression from 'compression'
 
 /*eslint-disable no-console */
 
 const port = 3000;
 // const is ES 6 for var
 const app = express();
-const complier = webpack(config);
 
-app.use(require('webpack-dev-middleware')(complier,{
-    noInfo:true,
-    publicPath: config.output.publicPath // our variable path from config
-}));
+// for gzip
+app.use(compression());
 
+// support for serving of static files
+app.use(express.static('dist'));
 
 // http calls routes
 app.get('/users', function(req, res) {
@@ -35,8 +34,9 @@ app.get('/users', function(req, res) {
   });
 //
 
+
 app.get('/', function(request, response){
-        response.sendFile(path.join(__dirname, '../src/index.html'));
+        response.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(port, function(error){

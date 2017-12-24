@@ -1,3 +1,5 @@
+/*eslint-disable no-console */
+
 //var chalk = require('chalk');
 // ES 6 syntax, Babel will transpile
 import chalk from 'chalk';
